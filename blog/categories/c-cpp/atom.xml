@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C-cpp | code shatter of dusteye]]></title>
+  <link href="http://dusteye.github.io/blog/categories/c-cpp/atom.xml" rel="self"/>
+  <link href="http://dusteye.github.io/"/>
+  <updated>2016-03-10T23:17:16+08:00</updated>
+  <id>http://dusteye.github.io/</id>
+  <author>
+    <name><![CDATA[dusteye]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[New Keywords in C++11]]></title>
+    <link href="http://dusteye.github.io/blog/2013/09/26/new-keywords-in-c++11/"/>
+    <updated>2013-09-26T00:00:00+08:00</updated>
+    <id>http://dusteye.github.io/blog/2013/09/26/new-keywords-in-c++11</id>
+    <content type="html"><![CDATA[<p>零星看了一些C++11的新特性，又在面试过程中被问道一些跟C++11新特性有关的内容，所以就写点东西总结一下吧，这篇文章先写写C++11中那些新的关键字（也包括语义发生了变化的）</p>
+
+<h3>类相关</h3>
+
+<p>final 和 override
+在C++03中，如果要实现一个不能继承的类，我们或许需要通过一些不是很直观的设计来达到目的：</p>
+
+<pre>
+<code class="cpp">
+    template<class T>
+    class NoInheritBase{
+    friend T; 
+    private:
+        NoInheritBase(){}
+        ~NoInheritBase(){}
+    };
+    class NoInherit:public NoInheritBase<NoInherit>{
+        //members and function members;
+    };
+    class ErrorInherit:public NoInherit{}; //错误
+</code>
+</pre>
+
+
+<p>这种设计的思想是将类(NoInheritBase)的构造函数和析构函数设置为私有函数，同时为了解决类本身无法构造的问题，通过子类(NoInherit)对其继承并将子类设置为父类的友元函数,这样所有继承NoInherit类的子类都需要调用NoInheritBase的构造函数,但是由于NoInheritBase的构造函数是私有的,而且只有NoInherit一个友元函数,所以所有继承自NoInherit的类都会产生一个编译错误。
+再看另外一个场景，在一个层次化的多个类之间，如果想将一个子类的virtual函数设置为最终实现，即不允许子类再重写，这时候上面的方法就爱莫能助了。</p>
+
+<p>在C++11中，引入了final关键字，使用final来解决上面两个问题都是非常简单且直观的。</p>
+
+<pre>
+<code class="cpp">
+    class NoInheritSimple final{};
+    class ErrorInherit_1:public NoInheritSimple{}; //error
+    class Base{
+        virtual void dummy() final{} //final function
+    };
+    class Inherit: public Base{
+        virtual void dummy() {/*function body*/ } // error, can not override final function
+    };
+</code>
+</pre>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Compile Folly]]></title>
+    <link href="http://dusteye.github.io/blog/2012/12/29/compile-folly/"/>
+    <updated>2012-12-29T00:00:00+08:00</updated>
+    <id>http://dusteye.github.io/blog/2012/12/29/compile-folly</id>
+    <content type="html"><![CDATA[<p>folly是facebook开源的一个C++底层库，采用c++11标准，主要用于提高大规模，高并发的应用性能。</p>
+
+<h3>编译folly</h3>
+
+<p>根据folly的文档，目前folly只在ubuntu 12.04 64 bit的和Fedora 17 64bit上测试通过。在ubuntu 12.04 64 bit上编译folly遇到了诸多问题，以下是解决备忘：</p>
+
+<ul>
+<li>-依赖，folly依赖libboost, libboost-system, 可以安装libboost-all-dev包，只安装libboost-dev会在autoconf时候出错。</li>
+<li>-folly编译使用automake和autoconf工具，由于autoconf的不成熟，使用autoconf中会出现问题，使用autoreconf替代</li>
+<li>-依然是automake和autoconf的问题，github上有个<a href="https://github.com/facebook/folly/pull/22">open issue</a>可以解决这个问题</li>
+<li>-一个头文件问题
+Portability.h</li>
+</ul>
+
+
+<pre>
+<code class="cpp">
+    #ifdef __GNUC__
+    # if __GNUC_PREREQ(4,7)
+    #  define FOLLY_FINAL final
+    #  define FOLLY_OVERRIDE override
+    # endif
+    #endif
+</code>
+</pre>
+
+
+<p>其中<code>__GNUC_PREREQ(4,7)</code>为features.h中的宏，需要include features.h</p>
+
+<p>后续：以上问题部分最新版已解决</p>
+]]></content>
+  </entry>
+  
+</feed>

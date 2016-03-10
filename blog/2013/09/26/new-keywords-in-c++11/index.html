@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>code shatter of dusteye</title>
+  <title>New Keywords in C++11 - code shatter of dusteye</title>
   <meta name="author" content="dusteye">
 
   
@@ -19,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dusteye.github.io/">
+  <link rel="canonical" href="http://dusteye.github.io/blog/2013/09/26/new-keywords-in-c++11/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="code shatter of dusteye" type="application/atom+xml">
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/09/26/new-keywords-in-c++11/">New Keywords in C++11</a></h1>
+      <h1 class="entry-title">New Keywords in C++11</h1>
     
     
       <p class="meta">
@@ -86,7 +83,7 @@
   </header>
 
 
-  <div class="entry-content"><p>零星看了一些C++11的新特性，又在面试过程中被问道一些跟C++11新特性有关的内容，所以就写点东西总结一下吧，这篇文章先写写C++11中那些新的关键字（也包括语义发生了变化的）</p>
+<div class="entry-content"><p>零星看了一些C++11的新特性，又在面试过程中被问道一些跟C++11新特性有关的内容，所以就写点东西总结一下吧，这篇文章先写写C++11中那些新的关键字（也包括语义发生了变化的）</p>
 
 <h3>类相关</h3>
 
@@ -131,76 +128,50 @@
 
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">dusteye</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-09-26T00:00:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-cpp/'>c-cpp</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2012/12/29/compile-folly/">Compile Folly</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2012-12-29T00:00:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>folly是facebook开源的一个C++底层库，采用c++11标准，主要用于提高大规模，高并发的应用性能。</p>
-
-<h3>编译folly</h3>
-
-<p>根据folly的文档，目前folly只在ubuntu 12.04 64 bit的和Fedora 17 64bit上测试通过。在ubuntu 12.04 64 bit上编译folly遇到了诸多问题，以下是解决备忘：</p>
-
-<ul>
-<li>-依赖，folly依赖libboost, libboost-system, 可以安装libboost-all-dev包，只安装libboost-dev会在autoconf时候出错。</li>
-<li>-folly编译使用automake和autoconf工具，由于autoconf的不成熟，使用autoconf中会出现问题，使用autoreconf替代</li>
-<li>-依然是automake和autoconf的问题，github上有个<a href="https://github.com/facebook/folly/pull/22">open issue</a>可以解决这个问题</li>
-<li>-一个头文件问题
-Portability.h</li>
-</ul>
-
-
-<pre>
-<code class="cpp">
-    #ifdef __GNUC__
-    # if __GNUC_PREREQ(4,7)
-    #  define FOLLY_FINAL final
-    #  define FOLLY_OVERRIDE override
-    # endif
-    #endif
-</code>
-</pre>
-
-
-<p>其中<code>__GNUC_PREREQ(4,7)</code>为features.h中的宏，需要include features.h</p>
-
-<p>后续：以上问题部分最新版已解决</p>
+      <div class="sharing">
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/29/compile-folly/" title="Previous Post: Compile Folly">&laquo; Compile Folly</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -224,6 +195,7 @@ Portability.h</li>
 
   
 </aside>
+
 
     </div>
   </div>
