@@ -90,21 +90,29 @@
 <p>final 和 override
 在C++03中，如果要实现一个不能继承的类，我们或许需要通过一些不是很直观的设计来达到目的：</p>
 
-<pre>
-<code class="cpp">
-    template<class T>
-    class NoInheritBase{
-    friend T; 
-    private:
-        NoInheritBase(){}
-        ~NoInheritBase(){}
-    };
-    class NoInherit:public NoInheritBase<NoInherit>{
-        //members and function members;
-    };
-    class ErrorInherit:public NoInherit{}; //错误
-</code>
-</pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>    <span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">NoInheritBase</span><span class="p">{</span>
+</span><span class='line'>    <span class="k">friend</span> <span class="n">T</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>        <span class="n">NoInheritBase</span><span class="p">(){}</span>
+</span><span class='line'>        <span class="o">~</span><span class="n">NoInheritBase</span><span class="p">(){}</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">NoInherit</span><span class="o">:</span><span class="k">public</span> <span class="n">NoInheritBase</span><span class="o">&lt;</span><span class="n">NoInherit</span><span class="o">&gt;</span><span class="p">{</span>
+</span><span class='line'>        <span class="c1">//members and function members;</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">ErrorInherit</span><span class="o">:</span><span class="k">public</span> <span class="n">NoInherit</span><span class="p">{};</span> <span class="c1">//错误</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这种设计的思想是将类(NoInheritBase)的构造函数和析构函数设置为私有函数，同时为了解决类本身无法构造的问题，通过子类(NoInherit)对其继承并将子类设置为父类的友元函数,这样所有继承NoInherit类的子类都需要调用NoInheritBase的构造函数,但是由于NoInheritBase的构造函数是私有的,而且只有NoInherit一个友元函数,所以所有继承自NoInherit的类都会产生一个编译错误。
@@ -112,20 +120,23 @@
 
 <p>在C++11中，引入了final关键字，使用final来解决上面两个问题都是非常简单且直观的。</p>
 
-<pre>
-<code class="cpp">
-    class NoInheritSimple final{};
-    class ErrorInherit_1:public NoInheritSimple{}; //error
-    class Base{
-        virtual void dummy() final{} //final function
-    };
-    class Inherit: public Base{
-        virtual void dummy() {/*function body*/ } // error, can not override final function
-    };
-</code>
-</pre>
-
-
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>    <span class="k">class</span> <span class="nc">NoInheritSimple</span> <span class="k">final</span><span class="p">{};</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">ErrorInherit_1</span><span class="o">:</span><span class="k">public</span> <span class="n">NoInheritSimple</span><span class="p">{};</span> <span class="c1">//error</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">Base</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">virtual</span> <span class="kt">void</span> <span class="n">dummy</span><span class="p">()</span> <span class="k">final</span><span class="p">{}</span> <span class="c1">//final function</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">Inherit</span><span class="o">:</span> <span class="k">public</span> <span class="n">Base</span><span class="p">{</span>
+</span><span class='line'>        <span class="k">virtual</span> <span class="kt">void</span> <span class="n">dummy</span><span class="p">()</span> <span class="p">{</span><span class="cm">/*function body*/</span> <span class="p">}</span> <span class="c1">// error, can not override final function</span>
+</span><span class='line'>    <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
